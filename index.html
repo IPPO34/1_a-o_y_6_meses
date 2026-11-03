@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para mi amorcito 💗</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --amarillo:#ffd23f; --amarillo-osc:#f4a300; --rosa:#ff5d8f; --rosa-claro:#ffc2d4;
+    --crema:#fff8e1; --tinta:#6b3a4a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Quicksand',sans-serif;color:var(--tinta);overflow-x:hidden;
+    background:radial-gradient(circle at 20% 15%,#fff3b0 0,transparent 45%),
+               radial-gradient(circle at 85% 85%,#ffd6e3 0,transparent 50%),
+               linear-gradient(160deg,#fff6cf,#ffe3ec);
+    background-attachment:fixed;
+  }
+  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+  /* ---------- Pantalla del sobre ---------- */
+  #intro{
+    position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:22px;text-align:center;padding:20px;
+    transition:opacity 1s ease,visibility 1s;
+  }
+  #intro.oculto{opacity:0;visibility:hidden}
+  #intro h1{font-family:'Dancing Script',cursive;font-size:clamp(2rem,7vw,3.2rem);color:var(--rosa);text-shadow:0 2px 12px #fff}
+  #intro p{font-size:1rem;opacity:.8}
+  .sobre{
+    position:relative;width:min(300px,78vw);aspect-ratio:3/2;cursor:pointer;
+    background:linear-gradient(145deg,#ffe58a,#ffd23f);border-radius:10px;
+    box-shadow:0 18px 40px rgba(244,163,0,.35);animation:latir 2s ease-in-out infinite;
+  }
+  .sobre::before,.sobre::after{content:"";position:absolute;inset:0;border-radius:10px}
+  .sobre::before{ /* solapa */
+    background:linear-gradient(145deg,#ffdf6b,#f7bd1e);
+    clip-path:polygon(0 0,100% 0,50% 58%);
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,.12));
+  }
+  .sobre::after{ /* laterales */
+    background:linear-gradient(145deg,#ffe58a,#ffcf33);
+    clip-path:polygon(0 100%,0 0,50% 58%,100% 0,100% 100%);
+    z-index:-1;
+  }
+  .sello{
+    position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:2;
+    width:62px;height:62px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%,#ff8fb1,#e0245e);color:#fff;font-size:30px;
+    box-shadow:0 6px 14px rgba(224,36,94,.5);
+  }
+  @keyframes latir{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+  /* ---------- Carta ---------- */
+  #carta{position:relative;z-index:2;display:none;justify-content:center;padding:40px 16px 90px}
+  #carta.visible{display:flex}
+  .papel{
+    width:min(720px,100%);padding:clamp(26px,6vw,56px);border-radius:20px;
+    background:rgba(255,252,238,.88);backdrop-filter:blur(6px);
+    border:2px solid #ffe08a;box-shadow:0 20px 60px rgba(244,163,0,.25),0 0 0 8px rgba(255,255,255,.5);
+    animation:subir 1.4s cubic-bezier(.2,.8,.2,1) both;position:relative;
+  }
+  @keyframes subir{from{opacity:0;transform:translateY(80px) scale(.94)}to{opacity:1;transform:none}}
+  .papel::before,.papel::after{
+    content:"🌻";position:absolute;font-size:2.4rem;animation:mecer 3.5s ease-in-out infinite;
+  }
+  .papel::before{top:-20px;left:-8px}
+  .papel::after{top:-20px;right:-8px;animation-delay:1.2s}
+  @keyframes mecer{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+  .titulo{font-family:'Dancing Script',cursive;font-size:clamp(2.1rem,7vw,3.4rem);color:var(--rosa);text-align:center;line-height:1.1;margin-bottom:6px}
+  .sub{text-align:center;font-size:1.5rem;margin-bottom:26px;letter-spacing:6px}
+  .papel p.parr{
+    font-size:clamp(1rem,2.6vw,1.12rem);line-height:1.85;margin-bottom:18px;font-weight:500;
+    opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;
+  }
+  .papel p.parr.on{opacity:1;transform:none}
+  .corazon{display:inline-block;cursor:pointer;transition:transform .2s;user-select:none}
+  .corazon:hover{transform:scale(1.35) rotate(-8deg)}
+  .corazon:active{transform:scale(.8)}
+  .firma{font-family:'Dancing Script',cursive;font-size:2rem;text-align:right;color:var(--rosa);margin-top:8px}
+
+  /* ---------- Pregunta final ---------- */
+  .final{text-align:center;margin-top:30px;padding-top:26px;border-top:2px dashed var(--rosa-claro);position:relative;min-height:150px}
+  .final h2{font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,8vw,3.6rem);color:var(--rosa);margin-bottom:18px}
+  .botones{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
+  button.btn{
+    font-family:inherit;font-weight:700;font-size:1.1rem;border:none;cursor:pointer;
+    padding:14px 34px;border-radius:999px;transition:transform .2s,box-shadow .2s;
+  }
+  #si{background:linear-gradient(135deg,#ff7aa5,#e0245e);color:#fff;box-shadow:0 8px 20px rgba(224,36,94,.4)}
+  #si:hover{transform:scale(1.12)}
+  #no{background:#fff;color:var(--tinta);border:2px solid var(--rosa-claro);position:relative}
+  #respuesta{display:none;font-family:'Dancing Script',cursive;font-size:clamp(1.8rem,6vw,2.8rem);color:var(--rosa);line-height:1.3}
+
+  /* ---------- Controles de música ---------- */
+  .musica{position:fixed;right:14px;bottom:14px;z-index:10;display:flex;gap:8px;align-items:center}
+  .musica button,.musica label{
+    background:#fff;border:2px solid #ffe08a;color:var(--tinta);cursor:pointer;
+    border-radius:999px;padding:10px 14px;font:600 .85rem 'Quicksand',sans-serif;
+    box-shadow:0 6px 16px rgba(0,0,0,.12);transition:transform .2s;
+  }
+  .musica button:hover,.musica label:hover{transform:scale(1.07)}
+  .musica input{display:none}
+  .pista{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:9;
+    font-size:.8rem;opacity:.65;text-align:center;pointer-events:none}
+</style>
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+
+<!-- Sobre inicial -->
+<section id="intro">
+  <h1>Para ti, mi amorcito 💗</h1>
+  <div class="sobre" id="sobre" title="Ábrelo"><div class="sello">💗</div></div>
+  <p>Toca el sobre para abrirlo 🌻</p>
+</section>
+
+<!-- Carta -->
+<main id="carta">
+  <article class="papel">
+    <h1 class="titulo">Feliz 1 año y 6 meses<br>mi amorcito 💗</h1>
+    <div class="sub">🌻🌻🌻</div>
+
+    <p class="parr">Feliz 1 año y 6 meses mi amorcito <span class="corazon">💗</span> ya un año y medio juntitos mi amorcito <span class="corazon">💗</span>😭 Primero felicitarte por aguantarme todo este tiempo, no pensé que llegarías tan lejos jajaja. Bueno mi amorcito <span class="corazon">💗</span> decirte que gracias por todo este tiempo a tu ladito, soy el hombre más feliz del mundo estando contigo mi amorcito <span class="corazon">💗</span></p>
+
+    <p class="parr">Gracias por ser mi fiel compañera, amiga, mi confidente de hacer locuras jajaja, y gritarme cuando es necesario 🥺 Gracias por hacerme ver que la vida es mucho más linda estando a tu lado, gracias por ayudarme a ver las cosas de distinta forma cuando a veces solo veo el lado negativo, gracias por estar cuando más te necesito y no querer a nadie más que solo estar abrazadito a ti <span class="corazon">💗</span></p>
+
+    <p class="parr">Gracias por entenderme cuando ni yo mismo lo hago, gracias por no dejarme solo a pesar de ser un tonto, y podría darte las gracias por muchas cosas y no terminar nunca mi amorcito <span class="corazon">💗</span> Desde que te conocí, en cada meta que tengo o en cada sueño que tengo siempre estás tú ahí <span class="corazon">💗</span> y me gusta pensar en nuestro futuro juntitos mi amorcito <span class="corazon">💗</span> anhelo y espero el día en poder tener nuestra casita y vivir juntitos por siempre y no separarme de tu lado. Siempre trataré de hacerte la mujer más feliz del mundo mi amorcito <span class="corazon">💗</span> y protegerte y cuidarte por siempre mi chiquita <span class="corazon">💗</span></p>
+
+    <p class="parr">Perdón por las veces en que te hice llorar, las veces en que te decepcioné, las veces que sentías que no te amaba, pero si supieras que mi corazón ya te pertenece mi amorcito <span class="corazon">💗</span> puedes hacer anticucho si quieres con mi corazón jajajaj uy qué rico anticucho, debemos ir a comer 🧐 jajaja de la nada, pero bueno mi amorcito <span class="corazon">💗</span> decirte que eres y serás siempre el amor de mi vida <span class="corazon">💗</span></p>
+
+    <p class="parr">Sé que últimamente hemos estado peleando mucho, pero poco a poco siento que vamos mejorando mi amorcito <span class="corazon">💗</span> y sé que esto mejorará como lo estamos haciendo. Sabes que hemos pasado de todo juntos, demasiadas cosas, y sería tonto dejar ir al amor de todas mis vidas <span class="corazon">💗</span> y jamás dejaré de intentarlo porque eres simplemente tú mi amorcito <span class="corazon">💗</span> la mujer más maravillosa, que siempre pone delante la felicidad de los demás antes que la suya, y esa es una de las cosas que admiro de ti. Eres una mujer muy fuerte mi amorcito <span class="corazon">💗</span> de eso no tengas duda, que sé por lo que has pasado y a pesar de todo sigues adelante, y no dudes que siempre contarás conmigo mi amorcito <span class="corazon">💗</span></p>
+
+    <p class="parr">Gracias por siempre confiar en mí mi vida <span class="corazon">💗</span> te amo demasiado mi amorcito <span class="corazon">💗</span> de aquí a la luna, a pasitos de huron sin piernitas 🌙🌻</p>
+
+    <p class="firma parr">Psdt: Te seguire molestando toda la vida mi amorcito 💗</p>
+
+    <div class="final parr" id="final">
+      <h2 id="pregunta">¿Quieres? 🌻</h2>
+      <div class="botones" id="botones">
+        <button class="btn" id="si">Sí quiero 💗</button>
+        <button class="btn" id="no">No </button>
+      </div>
+      <p id="respuesta">¡Te amo demasiado, mi amorcito! 💗🌻<br>Feliz 1 año y 6 meses 💗</p>
+    </div>
+  </article>
+</main>
+
+<!-- Música -->
+<audio id="audio" loop preload="auto">
+  <source src="contigo siempre - chris syler.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* ============ Audio ============ */
+const audio = document.getElementById('audio');
+
+/* ============ Canvas: corazones y flores flotando ============ */
+const cv = document.getElementById('fx'), ctx = cv.getContext('2d');
+let W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+function resize(){
+  W = innerWidth; H = innerHeight;
+  cv.width = W * DPR; cv.height = H * DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+addEventListener('resize', resize); resize();
+
+const rosas = ['#ff5d8f','#ff7aa5','#e0245e','#ff9ebb','#ffb3c9'];
+const items = [];
+
+function nuevo(x, y, tipo, explosion){
+  const t = tipo || (Math.random() < 0.5 ? 'flor' : 'corazon');
+  const size = t === 'flor' ? 16 + Math.random()*26 : 10 + Math.random()*22;
+  const o = {
+    t, x, y, size,
+    vx: explosion ? (Math.random()-.5)*7 : (Math.random()-.5)*.6,
+    vy: explosion ? -Math.random()*6 - 1 : -(.4 + Math.random()*1.1),
+    rot: Math.random()*6.28, vr: (Math.random()-.5)*.03,
+    fase: Math.random()*6.28, vida: explosion ? 1 : null,
+    color: t === 'corazon' ? rosas[Math.floor(Math.random()*rosas.length)] : null,
+    petalos: 7 + Math.floor(Math.random()*3),
+    alpha: .55 + Math.random()*.4, explosion: !!explosion
+  };
+  items.push(o); return o;
+}
+
+function dibujarCorazon(s, color){
+  ctx.beginPath();
+  ctx.moveTo(0, s*.3);
+  ctx.bezierCurveTo(-s, -s*.4, -s*.6, -s*1.1, 0, -s*.5);
+  ctx.bezierCurveTo(s*.6, -s*1.1, s, -s*.4, 0, s*.3 + s*.7);
+  ctx.bezierCurveTo(s, -s*.4, s*.6, -s*1.1, 0, -s*.5);
+  // forma clásica más simple
+  ctx.beginPath();
+  ctx.moveTo(0, s*.9);
+  ctx.bezierCurveTo(-s*1.3, -s*.1, -s*.7, -s*1.1, 0, -s*.35);
+  ctx.bezierCurveTo(s*.7, -s*1.1, s*1.3, -s*.1, 0, s*.9);
+  ctx.fillStyle = color; ctx.fill();
+  ctx.beginPath(); ctx.arc(-s*.35, -s*.3, s*.18, 0, 6.28);
+  ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fill();
+}
+function dibujarFlor(s, n){
+  for (let i=0;i<n;i++){
+    ctx.save(); ctx.rotate(i/n*6.28);
+    ctx.beginPath(); ctx.ellipse(0, -s*.62, s*.2, s*.46, 0, 0, 6.28);
+    const g = ctx.createLinearGradient(0,-s*1.1,0,-s*.2);
+    g.addColorStop(0,'#ffe45c'); g.addColorStop(1,'#f9b81a');
+    ctx.fillStyle = g; ctx.fill(); ctx.restore();
+  }
+  const c = ctx.createRadialGradient(-s*.1,-s*.1,1,0,0,s*.4);
+  c.addColorStop(0,'#a8581c'); c.addColorStop(1,'#5b2b0b');
+  ctx.beginPath(); ctx.arc(0,0,s*.38,0,6.28); ctx.fillStyle = c; ctx.fill();
+  ctx.fillStyle = 'rgba(255,220,120,.7)';
+  for (let i=0;i<7;i++){ const a=i*2.4, r=s*.05*i;
+    ctx.beginPath(); ctx.arc(Math.cos(a)*r, Math.sin(a)*r, s*.03, 0, 6.28); ctx.fill(); }
+}
+
+let ultimo = 0;
+function bucle(ts){
+  ctx.clearRect(0,0,W,H);
+  if (ts - ultimo > 380 && items.length < 70){ nuevo(Math.random()*W, H + 40); ultimo = ts; }
+  for (let i = items.length-1; i >= 0; i--){
+    const o = items[i];
+    o.fase += .02;
+    o.x += o.vx + Math.sin(o.fase) * (o.explosion ? .2 : .6);
+    o.y += o.vy; o.rot += o.vr;
+    if (o.explosion){ o.vy += .12; o.vx *= .985; o.vida -= .008; if (o.vida <= 0){ items.splice(i,1); continue; } }
+    else if (o.y < -60){ items.splice(i,1); continue; }
+    ctx.save();
+    ctx.globalAlpha = o.explosion ? Math.max(o.vida,0) : o.alpha;
+    ctx.translate(o.x, o.y); ctx.rotate(o.t === 'flor' ? o.rot : Math.sin(o.fase)*.3);
+    if (o.t === 'flor') dibujarFlor(o.size, o.petalos); else dibujarCorazon(o.size*.6, o.color);
+    ctx.restore();
+  }
+  requestAnimationFrame(bucle);
+}
+for (let i=0;i<22;i++) nuevo(Math.random()*W, Math.random()*H);
+requestAnimationFrame(bucle);
+
+function explosion(x, y, n = 18){
+  for (let i=0;i<n;i++) nuevo(x, y, Math.random()<.5 ? 'flor' : 'corazon', true);
+}
+// Interacción: clic/toque = lluvia de flores y corazones
+addEventListener('pointerdown', e => explosion(e.clientX, e.clientY, 12));
+let ultMove = 0;
+addEventListener('pointermove', e => {
+  const t = performance.now();
+  if (t - ultMove > 140){ ultMove = t; const o = nuevo(e.clientX, e.clientY, Math.random()<.5?'corazon':'flor');
+    o.vy = -.6 - Math.random(); o.size *= .7; }
+});
+
+/* ============ Abrir el sobre ============ */
+const intro = document.getElementById('intro'), carta = document.getElementById('carta');
+document.getElementById('sobre').addEventListener('click', e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  explosion(r.left + r.width/2, r.top + r.height/2, 40);
+  audio.play().catch(()=>{});
+  intro.classList.add('oculto');
+  setTimeout(() => {
+    carta.classList.add('visible');
+    scrollTo({top:0});
+    observar();
+  }, 700);
+});
+
+/* ============ Aparición de párrafos al hacer scroll ============ */
+function observar(){
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting){ en.target.classList.add('on'); io.unobserve(en.target); }
+  }), {threshold:.25});
+  document.querySelectorAll('.parr').forEach(p => io.observe(p));
+}
+
+/* ============ Corazones clicables dentro de la carta ============ */
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('corazon')){
+    const r = e.target.getBoundingClientRect();
+    explosion(r.left + r.width/2, r.top, 14);
+  }
+});
+
+/* ============ Pregunta final ============ */
+const si = document.getElementById('si'), no = document.getElementById('no');
+let esquivos = 0;
+function huir(){
+  esquivos++;
+  const m = 110;
+  no.style.position = 'fixed';
+  no.style.zIndex = 20;
+  no.style.left = (20 + Math.random()*(innerWidth - 140)) + 'px';
+  no.style.top  = (80 + Math.random()*(innerHeight - 200)) + 'px';
+  si.style.transform = 'scale(' + Math.min(1 + esquivos*.12, 1.8) + ')';
+  if (esquivos > 5) no.textContent = 'Di que sí 🥺';
+}
+no.addEventListener('mouseenter', huir);
+no.addEventListener('touchstart', e => { e.preventDefault(); huir(); }, {passive:false});
+no.addEventListener('click', huir);
+
+si.addEventListener('click', () => {
+  document.getElementById('pregunta').style.display = 'none';
+  document.getElementById('botones').style.display = 'none';
+  no.style.display = 'none';
+  document.getElementById('respuesta').style.display = 'block';
+  let k = 0;
+  const id = setInterval(() => {
+    explosion(Math.random()*innerWidth, innerHeight*(.3 + Math.random()*.5), 22);
+    if (++k > 14) clearInterval(id);
+  }, 280);
+});
+</script>
+</body>
+</html>
